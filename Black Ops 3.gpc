@@ -1,0 +1,219 @@
+//Mods
+//Rapid Fire 			LT/L2 + DPAD Left 	-	Implemented
+//Akimbo Rapid Fire 	LT/L2 + DPAD Right	-	Implemented
+//No Recoil				LT/L2 + DPAD Down	-	Implemented
+//Burst Fire			LT/L2 + Right Stick	-	TBA
+//Single Fire			LT/L2 + X/Square 	-	TBA
+//Auto Quickscope		LT/L2 + Y/Triangle	-	TBA
+//Aim Assist			LT/L2 + A			-	Implemented
+//
+//
+//
+//
+//
+
+//Cheat Toggle Defaults
+int rf_state = FALSE;
+int rfa_state = FALSE;
+int aa_state = FALSE;
+int ar_state = FALSE;
+int bf_state = FALSE;
+int sf_state = FALSE;
+int qs_state = FALSE;
+
+//Integers
+int anti_recoil;
+
+main {
+//Toggle Code
+    
+    if(get_val(XB1_LT) && event_press(XB1_RIGHT)) //Rapid Fire Akimbo
+    	{
+       	if(rf_state) {rf_state = FALSE;}
+       	if(aa_state) {aa_state = FALSE;}
+       	if(rfa_state) {
+       		rfa_state = FALSE;
+       		combo_run(disable_Rumble);
+       		}
+       	else if(!rfa_state) { 
+  			rfa_state = TRUE;
+            combo_run(enable_Rumble);
+        }
+    }
+    
+    if(get_val(XB1_LT) && event_press(XB1_A)) //Aim Assist
+    	{
+    	if(rfa_state) {rfa_state = FALSE;}
+       	if(aa_state) {
+       	aa_state = FALSE;
+       	combo_run(disable_Rumble);
+       	}
+       	else if(!aa_state) { 
+            aa_state = TRUE;
+            combo_run(enable_Rumble);
+        }
+    }
+    
+    if (get_val(XB1_LT) && event_press(XB1_DOWN)){
+    	if(ar_state){
+    	ar_state = FALSE;
+    	combo_run(disable_Rumble);
+    	}
+    	else if(!ar_state){
+    		ar_state = TRUE;
+    		combo_run(enable_Rumble);
+    	}
+    }
+    
+    //Cheat Run
+    if (get_val(XB1_RT) && rf_state == TRUE){
+    combo_run(rapid_fire1);
+    }
+    
+    if (get_val(XB1_RT) && rfa_state == TRUE){
+    combo_run(rapid_fire2);
+    }
+    
+    if (ar_state == TRUE){combo_run(no_recoil)}
+    
+    if (aa_state == TRUE){
+    
+    	if (get_val(XB1_LB)){
+               combo_run(aimbot1);
+      	}else if(combo_running(aimbot1)){    
+               combo_stop (aimbot1);
+
+      	}
+    	if (get_val(XB1_LT)){
+               combo_run(aimbot1);
+      	}else if(combo_running(aimbot1)){    
+               combo_stop (aimbot1);
+
+      	}
+       	if (get_val(XB1_RX)){
+               combo_run(aimbot2);
+      	}else if(combo_running(aimbot2)){    
+               combo_stop (aimbot2);
+        }
+        if (get_val(XB1_LB)&& get_val(XB1_RX)< -45){
+               combo_stop(aimbot1)
+      	}
+        if (get_val(XB1_LB)&& get_val(XB1_RX)> +45){
+               combo_stop(aimbot1)
+      	}
+        if (get_val(XB1_LB)&& get_val(XB1_RY)< -45){
+               combo_stop(aimbot1)
+      	}
+        if (get_val(XB1_LB)&& get_val(XB1_RY)> +45){
+               combo_stop(aimbot1)
+      	}
+        if (get_val(XB1_LT)&& get_val(XB1_RX)< -45){
+               combo_stop(aimbot1)
+      	}
+        if (get_val(XB1_LT)&& get_val(XB1_RX)> +45){
+               combo_stop(aimbot1)
+      	}
+        if (get_val(XB1_LT)&& get_val(XB1_RY)< -45){
+               combo_stop(aimbot1)
+      	}
+        if (get_val(XB1_LT)&& get_val(XB1_RY)> +45){
+               combo_stop(aimbot2)
+      	}
+        if (get_val(XB1_RX)< -45){
+               combo_stop(aimbot2)
+      	}
+        if (get_val(XB1_RX)> +45){
+               combo_stop(aimbot2)
+      	}
+        if (get_val(XB1_RY)< -45){
+               combo_stop(aimbot2)
+      	}
+        if (get_val(XB1_RY)> +45){
+               combo_stop(aimbot2)
+      	}
+    }
+    
+}   
+//Cheats
+combo rapid_fire1 {
+    set_val(XB1_RT, 100);
+    wait(10);
+    set_val(XB1_RT, 0);
+}
+
+combo rapid_fire2 {
+	set_val(XB1_RT, 100);
+    wait(20);
+    set_val(XB1_RT, 0);
+    wait(20);
+    set_val(XB1_LT, 100);
+    wait(20);
+    set_val(XB1_LT, 0);
+}
+
+combo aimbot1 {     
+   set_val(XB1_RY,-25);//1                  
+   wait(25)
+   set_val(XB1_RX,+25);//1 
+   wait(25) 
+   set_val(XB1_RY,+25);//1
+   wait(25)                  
+   set_val(XB1_RX,-25);//1 
+   wait(25)
+}
+
+combo aimbot2 {     
+   set_val(XB1_RY,-20);//1                  
+   wait(25)
+   set_val(XB1_RX,+20);//1 
+   wait(25) 
+   set_val(XB1_RY,+20);//1
+   wait(25)                  
+   set_val(XB1_RX,-20);//1 
+   wait(25)
+}
+
+combo no_recoil {
+if(get_val(XB1_RT)) {
+anti_recoil = get_val(10) + 15;
+if(anti_recoil > 100) anti_recoil = 100;
+set_val(10, anti_recoil);
+}
+}
+
+combo b_fire{
+
+}
+
+combo s_fire{
+
+}
+
+combo jitter{            
+    set_val(XB1_X, 100); 
+    set_val(XB1_Y, 100); 
+    wait(11);                   
+    set_val(XB1_X, 0);    
+    set_val(XB1_Y, 0); 
+    wait(11);                  
+    set_val(XB1_Y, 100);
+    wait(11);                   
+    set_val(XB1_Y, 0); 
+    wait(11);                 
+}
+
+//Rumble Code 
+combo enable_Rumble {
+    set_rumble(RUMBLE_A, 100);
+    wait(300);
+    reset_rumble ();
+}
+
+combo disable_Rumble {
+    set_rumble(RUMBLE_A, 100);
+    wait(200);
+    reset_rumble ();
+    set_rumble(RUMBLE_A, 100);
+    wait(200);
+    reset_rumble ();
+}
